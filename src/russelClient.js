@@ -39,8 +39,7 @@ class RusselClient {
     async _handleResponse(response) {
         if (!response.is_success) {
             throw new Error(response.data || "Unknown error");
-        }
-        else {
+        } else {
 
             return ApiResponse.fromDict(response);
 

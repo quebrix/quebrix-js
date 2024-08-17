@@ -15,9 +15,13 @@ async function setKey(baseUrl, payload) {
             body: JSON.stringify(payload),
 
         });
-        return await response.json()
+        return new ServiceResult('operation successful', await response.json()).ok()
+
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
+
+
     }
 }
 
@@ -32,10 +36,11 @@ async function getCluster(baseUrl, partials) {
         const response = await customFetch(url, {
             method: 'GET',
         });
-        return await response.json()
+        return new ServiceResult('operation successful', await response.json()).ok()
 
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
@@ -50,10 +55,11 @@ async function deleteCluster(baseUrl, partials) {
             method: 'DELETE',
 
         });
-        return await response.json()
+        return new ServiceResult('operation successful', await response.json()).ok()
 
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
@@ -64,10 +70,10 @@ async function clearCluster(baseUrl, cluster) {
         const response = await customFetch(url, {
             method: 'DELETE'
         });
-        return await response.json()
-
+        return new ServiceResult('operation successful', await response.json()).ok()
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
@@ -78,10 +84,11 @@ async function getKeysOfCluster(baseUrl, cluster) {
         const response = await customFetch(url, {
             method: 'GET',
         });
-        return await response.json()
+        return new ServiceResult('operation successful', await response.json()).ok()
 
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
@@ -93,10 +100,10 @@ async function setCluster(baseUrl, cluster) {
         const response = await customFetch(url, {
             method: 'POST',
         });
-        return await response.json()
-
+        return new ServiceResult('operation successful', await response.json()).ok()
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
@@ -106,10 +113,11 @@ async function checkConnection(baseUrl) {
         const response = await customFetch(url, {
             method: 'GET',
         });
-        return await response.json()
+        return new ServiceResult('operation successful', await response.json()).ok()
 
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
@@ -120,10 +128,11 @@ async function getAllClusters(baseUrl) {
             method: 'GET',
 
         });
-        return await response.json()
+        return new ServiceResult('operation successful', await response.json()).ok()
 
     } catch (e) {
         errorHandler(e)
+        return new ServiceResult('operation failure').failure()
     }
 }
 
