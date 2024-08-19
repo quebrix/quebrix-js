@@ -1,8 +1,8 @@
- class ServiceResult {
-    private message;
-    private data;
+export class ServiceResult {
+     message;
+     data;
 
-    constructor(message: string, data) {
+    constructor(message, data) {
     this.message = message
     this.data = data
 }

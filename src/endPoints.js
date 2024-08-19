@@ -1,13 +1,9 @@
 import {errorHandler} from "./utilities/globalErrorHandler.js";
 import {customFetch} from "./utilities/customFetch.js";
 import {partialItemEncoder} from "./utilities/UrlCreator.js";
+import {ServiceResult} from "./utilities/ServiceResult.js";
 
 async function setKey(baseUrl, payload) {
-    /// expected payload {
-    // cluster
-    // key
-    // value
-    // }
     try {
         const url = `${baseUrl}/set`;
         const response = await customFetch(url, {
@@ -16,12 +12,9 @@ async function setKey(baseUrl, payload) {
 
         });
         return new ServiceResult('operation successful', await response.json()).ok()
-
     } catch (e) {
         errorHandler(e)
         return new ServiceResult('operation failure').failure()
-
-
     }
 }
 
@@ -32,7 +25,6 @@ async function getCluster(baseUrl, partials) {
     // }
     try {
         let url = `${baseUrl}/get/${partialItemEncoder(partials.cluster)}/${partialItemEncoder(partials.key)}`;
-        console.log(url)
         const response = await customFetch(url, {
             method: 'GET',
         });
@@ -60,6 +52,7 @@ async function deleteCluster(baseUrl, partials) {
     } catch (e) {
         errorHandler(e)
         return new ServiceResult('operation failure').failure()
+
     }
 }
 
@@ -71,9 +64,11 @@ async function clearCluster(baseUrl, cluster) {
             method: 'DELETE'
         });
         return new ServiceResult('operation successful', await response.json()).ok()
+
     } catch (e) {
         errorHandler(e)
         return new ServiceResult('operation failure').failure()
+
     }
 }
 
@@ -101,6 +96,7 @@ async function setCluster(baseUrl, cluster) {
             method: 'POST',
         });
         return new ServiceResult('operation successful', await response.json()).ok()
+
     } catch (e) {
         errorHandler(e)
         return new ServiceResult('operation failure').failure()
@@ -133,6 +129,7 @@ async function getAllClusters(baseUrl) {
     } catch (e) {
         errorHandler(e)
         return new ServiceResult('operation failure').failure()
+
     }
 }
 
