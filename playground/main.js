@@ -1,7 +1,9 @@
 import RusselClient from "../src/russelClient.js";
 async function main() {
     const testClient = new RusselClient();
-
+    testClient.setRusselConfig({
+        port:6022
+    })
     try {
         const payload = {
             cluster: 'newTest',

@@ -6,9 +6,10 @@ import {
     getCluster,
     getKeysOfCluster,
     setCluster,
-    setKey
+    setKey,
 } from "./endPoints.js";
 
+// ApiResponse class
 class ApiResponse {
     constructor(isSuccess, data) {
         this.isSuccess = isSuccess;
@@ -19,35 +20,34 @@ class ApiResponse {
         return new ApiResponse(data.is_success, data.data);
     }
 
-    decodeData() {
+    decodeData(encoding = "utf-8") {
         if (Array.isArray(this.data)) {
-            return Buffer.from(this.data).toString('utf-8');
+            return Buffer.from(this.data).toString(encoding);
         }
         return this.data;
     }
 }
 
+
 class RusselClient {
+
     constructor() {
-        this.baseUrl = 'http://127.0.0.1:6006/api';
+        this.baseUrl = "http://127.0.0.1:6022/api";
     }
 
     async setRusselConfig(russelConfig) {
-        this.baseUrl = russelConfig.baseUrl + '/api'
+        this.baseUrl = `${russelConfig.baseUrl ? russelConfig.baseUrl : 'http://127.0.0.1'}:${russelConfig.port ? russelConfig.port : '6022'}/api`;
     }
 
-    async _handleResponse(response) {
+     async _handleResponse(response) {
         if (!response.is_success) {
-            throw new Error(response.data || "Unknown error");
-        } else {
-
-            return ApiResponse.fromDict(response);
-
+            throw new Error(response.message || "Unknown error");
         }
+        return ApiResponse.fromDict(response.data);
     }
 
     async set(payload) {
-        const response = await setKey(this.baseUrl, payload)
+        const response = await setKey(this.baseUrl, payload);
         return await this._handleResponse(response);
     }
 
@@ -72,8 +72,7 @@ class RusselClient {
     }
 
     async getAllClusters() {
-        const url = `${this.baseUrl}/api/get_clusters`;
-        const response = await getAllClusters(url);
+        const response = await getAllClusters(this.baseUrl);
         return await this._handleResponse(response);
     }
 
@@ -88,5 +87,4 @@ class RusselClient {
     }
 }
 
-export default RusselClient
-
+export default RusselClient;
