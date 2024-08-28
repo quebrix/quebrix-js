@@ -10,6 +10,51 @@ Get started by installing the package:
 # npm
 npm install Russel-js
 ```
+Russel uses Authorization in order to set clusters. so you need to authorize yourself first.
+
+## 🔒 Authorization
+
+After installing the russel application. russel by default creates a user with this credentials
+
+```bash
+ admin // username
+ 123456 // password
+```
+This is the default user with the highest priority that can add and remove profiles.
+
+Now, before using the `russel-js` API you need to call `authorize` function when a new client is created.
+
+```typescript
+
+// Example usage:
+const russelClient = new RusselClient();
+russelClient.authorize();
+```
+
+If you need to authorize as another user, there are two different ways to do so.
+
+## 1. Set user in constructor
+
+```typescript
+
+// Example usage:
+const russelClient = new RusselClient('admin','123456'); // first arg is username and second is password
+russelClient.authorize();
+```
+
+## 2. Set user in russelConfig
+
+```typescript
+
+// Example usage:
+const russelClient = new RusselClient(); // first arg is username and second is password
+russelClient.setRusselConfig({
+    username:'admin',
+    password:123456
+})
+russelClient.authorize();
+```
+
 
 # 📬 Handling Responses
 Russel-js offers two ways to handle responses from your client operations:

@@ -1,4 +1,5 @@
 let fetch;
+let token= '';
 
 if (typeof globalThis.fetch !== 'function') {
     // Node.js < 18: use node-fetch
@@ -7,7 +8,9 @@ if (typeof globalThis.fetch !== 'function') {
     // Node.js >= 18: use native fetch
     fetch = globalThis.fetch;
 }
-
+function setToken(generatedToken){
+    token = generatedToken
+}
 async function customFetch(url, options) {
     return await fetch(url, {
         ...options,
@@ -18,5 +21,6 @@ async function customFetch(url, options) {
 }
 
 export {
-    customFetch
+    customFetch,
+    setToken
 }
