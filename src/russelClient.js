@@ -8,6 +8,7 @@ import {
     setCluster,
     setKey,
 } from "./endPoints.js";
+import {setToken} from "./utilities/customFetch.js";
 
 // ApiResponse class
 class ApiResponse {
@@ -31,14 +32,31 @@ class ApiResponse {
 
 class RusselClient {
 
-    constructor() {
+    constructor(username,password) {
         this.baseUrl = "http://127.0.0.1:6022/api";
+        this.username = username
+        this.password = password
     }
 
     async setRusselConfig(russelConfig) {
         this.baseUrl = `${russelConfig.baseUrl ? russelConfig.baseUrl : 'http://127.0.0.1'}:${russelConfig.port ? russelConfig.port : '6022'}/api`;
+        if (russelConfig.password) {
+            this.password = russelConfig.password
+        }
+        if (russelConfig.username) {
+            this.username = russelConfig.username
+        }
     }
+    async authorize() {
+        await this.setGlobalAuthHeader()
+        setToken(this.authHeaderValue)
 
+    }
+    async setGlobalAuthHeader() {
+        const encoder = new TextEncoder()
+        const authHeaderByte: any = encoder.encode(this.username.concat(':', this.password))
+        this.authHeaderValue = btoa(String.fromCharCode.apply(null, authHeaderByte))
+    }
      async _handleResponse(response) {
         if (!response.is_success) {
             throw new Error(response.message || "Unknown error");
